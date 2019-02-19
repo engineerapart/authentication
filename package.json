@@ -2,16 +2,24 @@
   "name": "next-passport-auth",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/next-auth.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --mode=production",
+    "build-dev": "webpack --mode=development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.3.3",
+    "@babel/preset-env": "^7.3.1",
+    "babel-loader": "^8.0.5",
     "webpack": "^4.29.5",
     "webpack-cli": "^3.2.3"
+  },
+  "dependencies": {
+    "@passport-next/passport-google-oauth2": "^1.0.0",
+    "passport": "^0.4.0"
   }
 }
