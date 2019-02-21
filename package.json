@@ -1,6 +1,6 @@
 {
   "name": "@engineerapart/nextauthentication",
-  "version": "0.0.3",
+  "version": "0.0.35",
   "description": "authentication for nextjs, specifically used for engineer apart",
   "main": "dist/next-authentication-server.js",
   "module": "dist/next-authentication-client.js",
@@ -9,6 +9,10 @@
     "prebuild": "rimraf dist",
     "build": "NODE_ENV=production rollup -c",
     "build:dev": "NODE_ENV=development rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barrysteyn/next-passport-auth.git"
   },
   "author": "Barry Steyn",
   "license": "ISC",
