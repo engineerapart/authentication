@@ -2,24 +2,38 @@
   "name": "next-passport-auth",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/next-auth.js",
+  "main": "dist/next-authentication-server.js",
+  "module": "dist/next-authentication-client.js",
   "scripts": {
-    "build": "webpack --mode=production",
-    "build-dev": "webpack --mode=development",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prebuild": "rimraf dist",
+    "build": "NODE_ENV=production rollup -c",
+    "build:dev": "NODE_ENV=development rollup -c"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Barry Steyn",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.3.3",
+    "@babel/plugin-proposal-class-properties": "^7.3.3",
     "@babel/preset-env": "^7.3.1",
-    "babel-loader": "^8.0.5",
-    "webpack": "^4.29.5",
-    "webpack-cli": "^3.2.3"
+    "@babel/preset-react": "^7.0.0",
+    "rmraf": "^1.0.3",
+    "rollup": "^1.2.2",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-replace": "^2.1.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-terser": "^4.0.4"
   },
   "dependencies": {
     "@passport-next/passport-google-oauth2": "^1.0.0",
+    "js-cookie": "^2.2.0",
+    "next-cookies": "^1.1.0",
     "passport": "^0.4.0"
+  },
+  "peerDependencies": {
+    "atob": "^2.1.2",
+    "react": ">=16.0.0",
+    "react-dom": ">=16.0.0"
   }
 }
