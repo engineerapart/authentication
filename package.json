@@ -1,10 +1,11 @@
 {
-  "name": "next-passport-auth",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@engineerapart/nextauthentication",
+  "version": "0.0.3",
+  "description": "authentication for nextjs, specifically used for engineer apart",
   "main": "dist/next-authentication-server.js",
   "module": "dist/next-authentication-client.js",
   "scripts": {
+    "prepublishOnly": "npm run build",
     "prebuild": "rimraf dist",
     "build": "NODE_ENV=production rollup -c",
     "build:dev": "NODE_ENV=development rollup -c"
