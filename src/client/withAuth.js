@@ -4,7 +4,7 @@ import { getUserCredentials, getToken } from './utils';
 import cookie from 'js-cookie';
 
 // Login function
-const login = id_token => cookie.set('id_token', id_token);
+const login = token => cookie.set('token', token);
 
 export default App => (
   class WithAuth extends React.Component {
@@ -17,33 +17,50 @@ export default App => (
       const { res } = ctx;
 
       // always prefer token from server res over cookie
-      const { id_token } = res && res.id_token
+      const { token } = res && res.token
         ? res // will be present when auth just performed by passport (only on server)
-        : getToken(ctx); // get id_token from cookie (on client and server)
+        : getToken(ctx); // get token from cookie (on client and server)
 
       const appProps = App.getInitialProps
-        ? await App.getInitialProps({ Component, router, ctx }) // make id_token available to all getInitialProps
+        ? await App.getInitialProps({ Component, router, ctx }) // make token available to all getInitialProps
         : {};
       
-      return { ...appProps, id_token };
+      return { ...appProps, token };
     }
 
     constructor(props) {
       super(props);
-      const { id_token } = this.props;
+      const { token } = this.props;
 
-      this.state.user = getUserCredentials(id_token);
+      this.state.user = getUserCredentials(token);
       this.syncLogout = this.syncLogout.bind(this);
     }
 
     componentDidMount() {
-      const { id_token } = this.props;
+      const { token } = this.props;
 
       // Perform client based login
-      if (id_token !== cookie.get('id_token')) {
-        login(id_token);
+      if (token !== cookie.get('token')) {
+        login(token);
       }
 
+      // This is necessary for facebook oauth
+      // see https://stackoverflow.com/questions/7131909/facebook-callback-appends-to-return-url
+      if (window.location.hash == '#_=_'){
+        // Check if the browser supports history.replaceState.
+        if (history.replaceState) {
+            // Keep the exact URL up to the hash.
+            var cleanHref = window.location.href.split('#')[0];
+
+            // Replace the URL in the address bar without messing with the back button.
+            history.replaceState(null, null, cleanHref);
+        } else {
+            // Well, you're on an old browser, we can get rid of the _=_ but not the #.
+            window.location.hash = '';
+        }
+      }
+
+      // Register events
       window.addEventListener('logout', this.syncLogout);
       window.addEventListener('storage', this.syncLogout);
     }
@@ -61,7 +78,7 @@ export default App => (
     }
 
     render() {
-      const { id_token, ...rest } = this.props; // strip id_token out
+      const { token, ...rest } = this.props; // strip token out
       return (
         <UserCredentialsContext.Provider value={this.state.user}>
           <App {...rest} />

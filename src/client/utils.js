@@ -9,7 +9,7 @@ const parseIdToken = token => process.browser
 
 // Logout function
 export const logout = () => {
-  cookie.remove('id_token');
+  cookie.remove('token');
   const logoutEvent = new CustomEvent('logout');
   window.dispatchEvent(logoutEvent);
   window.localStorage.setItem('logout', Date.now()); // why local storage? This will sync things in other tabs (see https://stackoverflow.com/questions/5370784/localstorage-eventlistener-is-not-called/6846158#answer-6846158)
@@ -17,15 +17,15 @@ export const logout = () => {
 
 // Obtains token, either from
 export const getToken = (ctx) => (
-  ctx ? nextCookie(ctx) : cookie.get('id_token')
+  ctx ? nextCookie(ctx) : cookie.get('token')
 );
 
-// Obtains user credentials by parsing JWT id_token
-export const getUserCredentials = (id_token) => {
-  if (!id_token) return { }; // empty object to denote no auth
+// Obtains user credentials by parsing JWT token
+export const getUserCredentials = (token) => {
+  if (!token) return { }; // empty object to denote no auth
 
   try {
-    const { name, email, picture } = parseIdToken(id_token);
+    const { name, email, picture } = parseIdToken(token);
     return { name, email, picture };
   } catch (error) {
     // TODO log error

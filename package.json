@@ -21,6 +21,7 @@
     "@babel/plugin-proposal-class-properties": "^7.3.3",
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
+    "core-js": "^2.6.5",
     "rmraf": "^1.0.3",
     "rollup": "^1.2.2",
     "rollup-plugin-babel": "^4.3.2",
@@ -34,7 +35,8 @@
     "@passport-next/passport-google-oauth2": "^1.0.0",
     "js-cookie": "^2.2.0",
     "next-cookies": "^1.1.0",
-    "passport": "^0.4.0"
+    "passport": "^0.4.0",
+    "passport-facebook": "^3.0.0"
   },
   "peerDependencies": {
     "atob": "^2.1.2",
