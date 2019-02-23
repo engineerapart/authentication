@@ -1,10 +1,12 @@
 import React from 'react';
 import { UserCredentialsContext } from './withUserCredentials';
-import { getUserCredentials, getToken } from './utils';
+import { getToken } from './utils';
 import cookie from 'js-cookie';
 
 // Login function
-const login = token => cookie.set('token', token);
+const login = user => cookie.set('usre', user);
+
+const noUser = { name: undefined, email: undefined, picture: undefined, token: undefined };
 
 export default App => (
   class WithAuth extends React.Component {
@@ -16,32 +18,34 @@ export default App => (
     static async getInitialProps({ Component, router, ctx }) {
       const { res } = ctx;
 
-      // always prefer token from server res over cookie
-      const { token } = res && res.token
+      // always prefer user from server res over cookie
+      const { user } = res && res.user
         ? res // will be present when auth just performed by passport (only on server)
-        : getToken(ctx); // get token from cookie (on client and server)
+        : getToken(ctx); // get user from cookie (on client and server)
 
       const appProps = App.getInitialProps
-        ? await App.getInitialProps({ Component, router, ctx }) // make token available to all getInitialProps
+        ? await App.getInitialProps({ Component, router, ctx })
         : {};
       
-      return { ...appProps, token };
+      return { ...appProps, user };
     }
 
     constructor(props) {
       super(props);
-      const { token } = this.props;
+      const user = this.props.user
+        ? this.props.user
+        : { ...noUser }; // deepcopy
 
-      this.state.user = getUserCredentials(token);
+      this.state.user = user
       this.syncLogout = this.syncLogout.bind(this);
     }
 
     componentDidMount() {
-      const { token } = this.props;
+      const { user } = this.props;
 
       // Perform client based login
-      if (token !== cookie.get('token')) {
-        login(token);
+      if (user !== cookie.get('user')) {
+        login(user);
       }
 
       // This is necessary for facebook oauth
@@ -72,13 +76,14 @@ export default App => (
     }
 
     syncLogout (event) {
+      // When logging out, need to rerender, so state is changed
       if (event.type === 'logout' || event.key === 'logout') {
-        this.setState({ user: {} });
+        this.setState({ user: {...noUser} });
       }
     }
 
     render() {
-      const { token, ...rest } = this.props; // strip token out
+      const { user, ...rest } = this.props; // strip user out
       return (
         <UserCredentialsContext.Provider value={this.state.user}>
           <App {...rest} />

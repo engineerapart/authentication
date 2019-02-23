@@ -13,9 +13,10 @@ export default function(config, handleSuccessfulLogin) {
   passport.use(new GoogleStrategy({ clientID, clientSecret, callbackURL },
     // call back function after successfull auth
     function(accessToken, refreshToken, params, profile, done) {
+      const { email, picture, name } = profile._json;
       const { id_token: token } = params;
       // need to save the refresh token and associated with username here
-      return done(null, token);
+      return done(null, { email, picture, name, token });
     }
   ));
 

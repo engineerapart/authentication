@@ -11,7 +11,7 @@ const handleSuccessfulLogin = function(req, res) {
     : '/'; // default is to redirect to /
 
   if (redirect_to) req.session.redirect_to = undefined; // remove redirect_to from session
-  req.session.token = req.user;
+  req.session.user = req.user;
   req.logout(); // logout from server- client will handle all identity from this point
   res.redirect(redirect_to); // TODO redirect to the correct URL, not just home page
 }
@@ -32,7 +32,7 @@ const configurePassportStrategies = (config) => {
 export default function middlware() {
   const passportAuthRoutes = configurePassportStrategies(this.config);
 
-  // Middleware that removes token from cookie-session
+  // Middleware that removes user from cookie-session
   const authMiddleware = function(req, res, next) {
     // check redirect_to, and store it in session if present
     const redirect_to = req.query.redirect_to;
@@ -40,12 +40,12 @@ export default function middlware() {
       req.session.redirect_to = redirect_to;
     }
 
-    // delete token from the session if it is present
-    const token = req.session && req.session.token
-      ? req.session.token
+    // delete user from the session if it is present
+    const user = req.session && req.session.user
+      ? req.session.user
       : null;
-    if (req.session.token) req.session.token = null;
-    res.token = token;
+    if (req.session.user) req.session.user = null;
+    res.user = user;
 
     next();
   };
