@@ -7,7 +7,6 @@ const profileFields = ['id', 'displayName', 'photos', 'email'];
 
 // setup facebook strategy
 export default function(config, handleSuccessfulLogin) {
-  console.log("")
   const { clientID, clientSecret, callbackURL, route } = config;
   if (!clientID) throw new Error('clientId not defined for facebook strategy');
   if (!clientSecret) throw new Error('clientSecret not defined for facebook strategy');
