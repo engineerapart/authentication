@@ -13,14 +13,18 @@ const isProduction = process.env.NODE_ENV === 'production';
 const rollUpConfig = {
   external: ['react', 'atob'],
   plugins: [
+    resolve({
+      extensions: ['.js', '.jsx'],
+    }),
     replace({
       "process.env.NODE_ENV": JSON.stringify(NODE_ENV),
+    }),
+    eslint({
+      exclude: ['node_modules/**', 'dist/**'],
     }),
     babel({
       exclude: "node_modules/**"
     }),
-    eslint(),
-    resolve(),
     commonjs(),
     isProduction && terser({ warnings: true, safari10: true }),
     sourceMaps(),

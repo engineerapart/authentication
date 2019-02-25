@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; // eslint-disable-line import/no-unresolved
 
 export const UserCredentialsContext = React.createContext({});
 
@@ -9,12 +9,12 @@ const withUserCredentials = (Component) => {
     </UserCredentialsContext.Consumer>
   );
 
-  WithUserCredentials.getInitialProps = async(ctx) => {
+  WithUserCredentials.getInitialProps = async (ctx) => {
     const composedInitialProps = Component.getInitialProps
       ? await Component.getInitialProps(ctx)
       : {};
     return composedInitialProps;
-  }
+  };
   return WithUserCredentials;
 };
 

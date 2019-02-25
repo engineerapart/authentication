@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'; // eslint-disable-line import/no-unresolved
+import cookie from 'js-cookie';
 import { UserCredentialsContext } from './withUserCredentials';
 import { getUser, removeHashForFacbookLogin } from './utils';
-import cookie from 'js-cookie';
 
 // Login function
 const login = user => cookie.set('user', user);
@@ -9,6 +9,7 @@ const login = user => cookie.set('user', user);
 export default App => (
   class WithAuth extends React.Component {
     static displayName = 'withAuth(App)';
+
     state = { user: { } };
 
     static async getInitialProps({ Component, router, ctx }) {
@@ -22,15 +23,13 @@ export default App => (
       const appProps = App.getInitialProps
         ? await App.getInitialProps({ Component, router, ctx: { ...ctx, user } })
         : { };
-      
+
       return { ...appProps, user };
     }
 
     constructor(props) {
       super(props);
-      const user = this.props.user
-        ? this.props.user
-        : { };
+      const { user = { } } = this.props;
 
       this.state.user = user;
       this.syncLogout = this.syncLogout.bind(this);
@@ -54,7 +53,7 @@ export default App => (
       window.localStorage.removeItem('logout');
     }
 
-    syncLogout (event) {
+    syncLogout(event) {
       // When logging out, need to rerender, so state is changed
       if (event.type === 'logout' || event.key === 'logout') {
         this.setState({ user: { } });
@@ -62,8 +61,8 @@ export default App => (
     }
 
     render() {
-      const { user, ...rest } = this.props; // strip user out
-      return (
+      const { user, ...rest } = this.props;
+      return ( // eslint-disable-next-line react/destructuring-assignment
         <UserCredentialsContext.Provider value={this.state.user}>
           <App {...rest} />
         </UserCredentialsContext.Provider>
