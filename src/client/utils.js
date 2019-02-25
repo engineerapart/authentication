@@ -13,7 +13,8 @@ export const logout = () => {
 export const getUser = (ctx) => {
   const user = ctx ? nextCookie(ctx).user : cookie.get('user');
 
-  if (user === 'undefined') return undefined;
+  // return empty object to keep things consistent
+  if (user === 'undefined' || !user) return { };
 
   return (typeof(user) === 'string')
     ? JSON.parse(user)
