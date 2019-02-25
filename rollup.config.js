@@ -3,6 +3,7 @@ import commonjs from "rollup-plugin-commonjs";
 import resolve from "rollup-plugin-node-resolve";
 import replace from "rollup-plugin-replace";
 import { terser } from 'rollup-plugin-terser';
+import { eslint } from "rollup-plugin-eslint";
 import sourceMaps from 'rollup-plugin-sourcemaps';
 
 const pkg = require('./package.json'); // tslint:disable-line no-var-requires
@@ -18,6 +19,7 @@ const rollUpConfig = {
     babel({
       exclude: "node_modules/**"
     }),
+    eslint(),
     resolve(),
     commonjs(),
     isProduction && terser({ warnings: true, safari10: true }),
