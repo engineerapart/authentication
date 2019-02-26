@@ -1,3 +1,5 @@
+import { expiresToTimeStamp } from '../utils';
+
 const express = require('express');
 const passport = require('passport');
 const GoogleStrategy = require('@passport-next/passport-google-oauth2').Strategy;
@@ -16,10 +18,12 @@ export default function (config, handleSuccessfulLogin) {
     // call back function after successfull auth
     ((accessToken, refreshToken, params, profile, done) => {
       const { email, picture, name } = profile._json; // eslint-disable-line no-underscore-dangle
-      const { id_token: token } = params;
+      const { id_token: value, expires_in: expiresIn } = params;
+      const token = { value, expires: expiresToTimeStamp(expiresIn) };
+
       // need to save the refresh token and associated with username here
       return done(null, {
-        email, picture, name, token,
+        strategy: 'google', email, picture, name, token,
       });
     })));
 

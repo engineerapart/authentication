@@ -3,6 +3,10 @@
 import nextCookie from 'next-cookies';
 import cookie from 'js-cookie';
 
+// given a timestamp, determines how many milliseconds are still left, with a negation offset
+// const intervalExpiryTime = (timeStamp, negation = 0) => t
+// imeStamp.getTime() - Date.now() - negation * 1000;
+
 // Logout function
 export const logout = () => {
   cookie.remove('user');
