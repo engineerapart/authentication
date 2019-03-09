@@ -23,7 +23,7 @@ const authConfig = {
   },
 };
 
-const nextAuthentication = require('@engineerapart/nextauthentication').init(authConfig);
+const nextAuthentication = require('@engineerapart/authentication').init(authConfig);
 
 app.prepare()
   .then(() => {

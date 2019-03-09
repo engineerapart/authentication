@@ -1,5 +1,5 @@
 import React from 'react';
-import { logout, withUserCredentials } from '@engineerapart/nextauthentication';
+import { logout, withUserCredentials } from '@engineerapart/authentication';
 
 
 const LoginLinks = () => (

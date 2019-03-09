@@ -1,6 +1,6 @@
 import React from 'react';
 import App, { Container } from 'next/app';
-import { withAuth } from '@engineerapart/nextauthentication';
+import { withAuth } from '@engineerapart/authentication';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
