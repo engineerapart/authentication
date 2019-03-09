@@ -26,10 +26,11 @@ export default function (config, handleSuccessfulLogin) {
     const { expires_in: expiresIn } = params;
     const picture = profile.photos.length && profile.photos[0].value;
     const token = { value: accessToken, expires: expiresToTimeStamp(expiresIn) };
+    const { id: userId } = profile;
 
     // need to save the refresh token and associated with username here
     return done(null, {
-      strategy: 'facebook', email, picture, name, token,
+      strategy: 'facebook', userId, email, picture, name, token,
     });
   })));
 

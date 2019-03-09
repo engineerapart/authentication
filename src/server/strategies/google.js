@@ -20,10 +20,11 @@ export default function (config, handleSuccessfulLogin) {
       const { email, picture, name } = profile._json; // eslint-disable-line no-underscore-dangle
       const { id_token: value, expires_in: expiresIn } = params;
       const token = { value, expires: expiresToTimeStamp(expiresIn) };
+      const { id: userId } = profile;
 
       // need to save the refresh token and associated with username here
       return done(null, {
-        strategy: 'google', email, picture, name, token,
+        strategy: 'google', userId, email, picture, name, token,
       });
     })));
 
