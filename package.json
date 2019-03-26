@@ -1,6 +1,6 @@
 {
   "name": "@engineerapart/authentication",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "authentication libraries for Node",
   "main": "dist/authentication-server.js",
   "module": "dist/authentication-client.js",
