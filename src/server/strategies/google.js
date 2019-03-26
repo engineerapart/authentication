@@ -1,4 +1,4 @@
-import { expiresToTimeStamp } from '../utils';
+import { encode, expiresToTimeStamp } from '../utils';
 
 const express = require('express');
 const passport = require('passport');
@@ -19,12 +19,13 @@ export default function (config, handleSuccessfulLogin) {
     ((accessToken, refreshToken, params, profile, done) => {
       const { email, picture, name } = profile._json; // eslint-disable-line no-underscore-dangle
       const { id_token: value, expires_in: expiresIn } = params;
-      const token = { value, expires: expiresToTimeStamp(expiresIn) };
       const { id: userId } = profile;
+      const token = encode(value, 'id_token', 'google');
 
       // need to save the refresh token and associated with username here
+
       return done(null, {
-        strategy: 'google', userId, email, picture, name, token,
+        userId, email, picture, name, token, expires: expiresToTimeStamp(expiresIn),
       });
     })));
 
