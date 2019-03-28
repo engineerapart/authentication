@@ -12,13 +12,13 @@ const cookieSession = require('cookie-session');
 // Config for authentication
 const authConfig = {
   google: {
-    clientID: '62128383038-iudal8l6dkb4emfdd4r5ls2qq59hpia9.apps.googleusercontent.com',
-    clientSecret: 'xW-u3GGqGCztz4aNbWGuNxlR',
+    clientID: '',
+    clientSecret: '',
     callbackURL: '/auth/google/callback',
   },
   facebook: {
-    clientID: '913779342346542',
-    clientSecret: '0d0b30dd8e84f827b2ffe5aef649e872',
+    clientID: '', // this is the appId
+    clientSecret: '',
     callbackURL: '/auth/facebook/callback',
   },
 };

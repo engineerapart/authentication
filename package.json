@@ -1,6 +1,6 @@
 {
   "name": "@engineerapart/authentication",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "authentication libraries for Node",
   "main": "dist/authentication-server.js",
   "module": "dist/authentication-client.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/barrysteyn/engineerapart-authentication.git"
+    "url": "git@github.com:engineerapart/authentication.git"
   },
   "author": "Barry Steyn",
   "license": "ISC",
