@@ -1,18 +1,18 @@
 import React from 'react';
-import { logout, withUserCredentials } from '@engineerapart/authentication';
+import { logout, getUser, withUserCredentials } from '@engineerapart/authentication';
 
 
 const LoginLinks = () => (
   <React.Fragment>
     <br />
-    <a href="/auth/google">Google Login</a> <br />
-    <a href="/auth/facebook">Facebook Login</a>
+    <a href="/auth?authStrategy=google">Google Login</a> <br />
+    <a href="/auth?authStrategy=facebook">Facebook Login</a>
   </React.Fragment>
 );
 
 class homePage extends React.Component {
   static async getInitialProps(ctx) {
-    console.log("CTX User ---> ", ctx.user);
+    console.log("CTX User ---> ", getUser(ctx));
   }
 
   render () {

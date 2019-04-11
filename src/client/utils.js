@@ -4,8 +4,8 @@ import nextCookie from 'next-cookies';
 import cookie from 'js-cookie';
 
 // given a timestamp, determines how many milliseconds are still left, with a negation offset
-// const intervalExpiryTime = (timeStamp, negation = 0) => t
-// imeStamp.getTime() - Date.now() - negation * 1000;
+// const intervalExpiryTime = (timeStamp, negation = 0) =>
+//  timeStamp.getTime() - Date.now() - negation * 1000;
 
 // Logout function
 export const logout = () => {
@@ -18,21 +18,19 @@ export const logout = () => {
 // Obtains user (only used in withAuth, purposefully not exposed)
 export const getUser = (ctx) => {
   const user = ctx ? nextCookie(ctx).user : cookie.get('user');
-
-  // return empty object to keep things consistent
   if (user === 'undefined' || !user) return { };
 
-  return (typeof (user) === 'string')
-    ? JSON.parse(user)
-    : user;
+  return process.browser
+    ? JSON.parse(window.atob(user))
+    : JSON.parse(Buffer.from(user, 'base64').toString('ascii'));
 };
 
 // This is necessary for facebook oauth
 // see https://stackoverflow.com/questions/7131909/facebook-callback-appends-to-return-url
-export const removeHashForFacbookLogin = () => {
+export const removeSecurityHash = () => {
   if (!process.browser) return; // should not be run on server
 
-  if (window.location.hash === '#_=_') {
+  if (window.location.hash === '#_=_' || window.location.hash === '#') {
     // Check if the browser supports history.replaceState.
     if (history.replaceState) {
       // Keep the exact URL up to the hash.
@@ -46,4 +44,5 @@ export const removeHashForFacbookLogin = () => {
     }
   }
 };
+
 /* eslint-enable no-restricted-globals */

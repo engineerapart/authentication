@@ -39,7 +39,7 @@
     "rollup-plugin-terser": "^4.0.4"
   },
   "dependencies": {
-    "@passport-next/passport-google-oauth2": "^1.0.0",
+    "passport-google-oauth20": "^2.0.0",
     "js-cookie": "^2.2.0",
     "next-cookies": "^1.1.0",
     "passport": "^0.4.0",
