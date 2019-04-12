@@ -89,23 +89,16 @@ const setupAuthRoute = function (config) {
 /* eslint-disable camelcase */
 export default function middlware() {
   configurePassportStrategies(this.config);
+  const { session } = this.config.options;
 
   const authMiddleware = function (req, res, next) {
-    if (!req.session) throw new Error('Sessions have not been enabled in the middleware');
+    if (session && !req.session) throw new Error('Sessions have not been enabled in the middleware');
 
     // check redirect_to, and store it in session if present
     const { redirect_to } = req.query;
     if (redirect_to) { // sessions need to be enabled for this to work
-      req.session.redirect_to = redirect_to;
+      res.cookie('redirect_to', redirect_to);
     }
-
-    // delete user from the session if it is present
-    const user = req.session && req.session.user
-      ? req.session.user
-      : null;
-
-    if (req.session.user) req.session.user = null;
-    res.user = user;
 
     next();
   };

@@ -11,7 +11,7 @@ export default App => (
     static async getInitialProps({ Component, router, ctx }) {
       const user = getUser(ctx);
       const appProps = App.getInitialProps
-        ? await App.getInitialProps({ Component, router, ctx })
+        ? await App.getInitialProps({ Component, router, ctx: { ...ctx, user } })
         : { };
 
       return { ...appProps, user };
